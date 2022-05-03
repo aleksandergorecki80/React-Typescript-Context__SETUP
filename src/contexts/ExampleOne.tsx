@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react';
 
+
 interface AppContextInterface {
     name: string;
     author: string;
@@ -11,9 +12,7 @@ interface ExampleOneProps {
 }
   
  export const ExampleOneContext = createContext<AppContextInterface | null>(null);
-  
-  
-  
+     
   export const ExampleOneProvider:React.FC<ExampleOneProps> = ({children}) => {
 
     const [ state, setState ] = useState<AppContextInterface | null>(
