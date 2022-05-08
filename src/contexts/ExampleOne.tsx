@@ -1,31 +1,50 @@
+import { v4 as uuidv4 } from 'uuid';
 import React, { createContext, useState } from 'react';
 
-
-interface AppContextInterface {
-    name: string;
-    author: string;
-    url: string;
-  }
 
 interface ExampleOneProps {
   children: React.ReactNode;
 }
-  
- export const ExampleOneContext = createContext<AppContextInterface | null>(null);
+
+interface SingleItem {
+  id: string; title: string; author: any
+}
+
+interface ArrayOfItems extends Array<SingleItem>{}
+
+type MyContextType = {
+  list: ArrayOfItems | undefined;
+  addElement: (title: string, author: string) => void;
+  removeElement: (id: string) => void;
+}
+
+ export const ExampleOneContext = createContext<MyContextType | undefined>(undefined);
      
   export const ExampleOneProvider:React.FC<ExampleOneProps> = ({children}) => {
 
-    const [ state, setState ] = useState<AppContextInterface | null>(
-      {
-          name: "Using React Context in a Typescript App",
-          author: "thehappybug",
-          url: "http://www.example.com",
-        }
+    const [ list, setList ] = useState<ArrayOfItems | undefined>(
+      [
+        { id: '0', title: 'Title one', author: 'John Doe' },
+        { id: '1', title: 'Title Two', author: 'Max Smith' },
+        { id: '2', title: 'Title Three', author: 'Jan Nowak' },
+      ]
 
     );
 
+    const addElement = (title: string, author: string) => {
+      if(list !== undefined){
+        setList([...list, {id: uuidv4(), title, author}]);
+      }
+    }
+
+    const removeElement = (id: string) => {
+      if(list !== undefined){
+        setList(list.filter(item => id !== item.id ))
+      }
+    }
+
     return (
-    <ExampleOneContext.Provider value={state}>
+    <ExampleOneContext.Provider value={{ list, addElement, removeElement }}>
       {children ? children : <div>Loading...</div>}
     </ExampleOneContext.Provider>
   )};
