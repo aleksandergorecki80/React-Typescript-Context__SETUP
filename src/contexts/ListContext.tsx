@@ -12,15 +12,15 @@ interface SingleItem {
 
 interface ArrayOfItems extends Array<SingleItem>{}
 
-type MyContextType = {
+export type MyContextType = {
   list: ArrayOfItems | undefined;
   addElement: (title: string, author: string) => void;
   removeElement: (id: string) => void;
 }
 
- export const ExampleOneContext = createContext<MyContextType | undefined>(undefined);
+ export const ListContext = createContext<MyContextType | undefined>(undefined);
      
-  export const ExampleOneProvider:React.FC<ExampleOneProps> = ({children}) => {
+  export const ListContextProvider:React.FC<ExampleOneProps> = ({children}) => {
 
     const [ list, setList ] = useState<ArrayOfItems | undefined>(
       [
@@ -44,7 +44,7 @@ type MyContextType = {
     }
 
     return (
-    <ExampleOneContext.Provider value={{ list, addElement, removeElement }}>
+    <ListContext.Provider value={{ list, addElement, removeElement }}>
       {children ? children : <div>Loading...</div>}
-    </ExampleOneContext.Provider>
+    </ListContext.Provider>
   )};
