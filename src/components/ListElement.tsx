@@ -13,13 +13,22 @@ interface ListElementProps {
 const ListElement: React.FC<ListElementProps> = ({ singleElement }) => {
   const listContext = useContext(ListContext);
 
+  const removeElement = () => {
+    listContext?.listDispatch({
+      type: 'REMOVE_ELEMENT',
+      payload: {
+        id: singleElement.id
+      }
+  })
+}
+
   return (
     <>
       <li>
         {singleElement.id}
         {singleElement.title}
         {singleElement.author}
-        <button onClick={() => listContext?.removeElement(singleElement.id)}>
+        <button onClick={removeElement}>
           remove
         </button>
       </li>

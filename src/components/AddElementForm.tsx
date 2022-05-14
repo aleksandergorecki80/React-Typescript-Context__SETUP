@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { ListContext } from '../contexts/ListContext';
+import { v4 as uuidv4 } from 'uuid';
 
 
 interface AddElementFormProps {}
@@ -13,7 +14,10 @@ const AddElementForm: React.FC<AddElementFormProps> = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(title, author);
-    listContext?.addElement(title, author);
+    listContext?.listDispatch({
+      type: 'ADD_ELEMENT',
+      payload: {id: uuidv4(), title, author}
+    });
   };
 
   return (
